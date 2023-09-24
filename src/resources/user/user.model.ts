@@ -5,6 +5,15 @@ import bcrypt from 'bcrypt';
 // Import Users Resources For Stable Work
 import User from '@/resources/user/user.interface';
 
+
+
+// Dashboard => Users => Clients => More Functionality
+// Ok
+// app.greefon.com
+// dashboard.greefon.com
+// 
+
+
 // Creating a custom schema for the future model in the database
 const UserSchema = new Schema(
     {
@@ -23,6 +32,7 @@ const UserSchema = new Schema(
         belt: { type: String, trim: true },
         city: { type: String, trim: true },
         images: { type: [String], trim: true },
+        clientId: { type: Schema.Types.ObjectId, ref: 'Client' },
 
         // Additional Data
         comment: { type: String, trim: true },

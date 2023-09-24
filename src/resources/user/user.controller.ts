@@ -33,7 +33,7 @@ class UserController implements Controller {
         // @access   Public
         this.router.post(
             `${this.path}/register`,
-            multer.array('documents'),
+            multer.array('images'),
             this.register
         );
 
@@ -101,33 +101,49 @@ class UserController implements Controller {
         try {
             // Getting data from a request
             const {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
-                city,
-                // documentAttachments: string[];
+                status,
                 password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
+                city,
+
+                // Additional Data
+                comment
             } = req.body;
 
-            const documents: any = req.files;
+            // Optional Data
+            const images: any = req.files;
             
             // Generating a token using a User Service Register
             // Attaching data received from the request
             const token = await this.UserService.register(
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
-                city,
-                // documentAttachments: string[];
+                status,
                 password,
 
-                documents,
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
+                city,
+
+                // Additional Data
+                comment,
+
+                // Optional Data
+                images,
                 req,
             );
             
@@ -257,35 +273,56 @@ class UserController implements Controller {
         try {
             // Getting data from a request
             const {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
 
+                // Additional Data
+                comment,
+
+                // Optional Data
                 statusChangeFile
             } = req.body;
 
             const userId = req.user.id;
 
-            const documents: any = req.files;
+            // Optional Data
+            const images: any = req.files;
             
             // Work User Service
             const userData = await this.UserService.updateMyProfile(
                 userId,
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
 
+                // Additional Data
+                comment,
+
+                // Optional Data
                 statusChangeFile,
 
-                documents,
+                images,
                 req,
             );
             

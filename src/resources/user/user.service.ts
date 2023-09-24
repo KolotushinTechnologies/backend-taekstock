@@ -20,17 +20,25 @@ class UserService {
      * Register a new user
      */
     public async register(
-        name: string,
-        lastname: string,
-        surname: string,
-        dateBirth: string,
-        speciality: string,
+        // Required Data
+        username: string,
+        fullname: string,
         phoneNumber: string,
-        city: string,
-        // documentAttachments: string[]string,
+        status: string,
         password: string,
 
-        documents: any,
+        // Optional Data
+        email: string,
+        dateBirth: string,
+        gip: string,
+        belt: string,
+        city: string,
+
+        // Additional Data
+        comment: string,
+
+        // Optional Data
+        images: any,
         req: any,
     ): Promise<string | Error> {
         try {
@@ -54,23 +62,37 @@ class UserService {
                 throw new Error('Server Error');
             }
 
-            const fileLinks = documents.map((file: any) => `${req.protocol}://${req.headers.host
-                }/files/documents/attachments/${file.path.split("\\").pop()}`);
+            const usernameIsExist = await this.user.findOne({ username });
+
+            // If the User with such Username already exists, then we issue an error
+            if (usernameIsExist) {
+                throw new Error('Server Error');
+            }
+
+            const fileLinks = images.map((file: any) => `${req.protocol}://${req.headers.host
+                }/files/images/attachments/${file.path.split("\\").pop()}`);
 
             // If the User's Phone Number is not busy, then create a new User. Adding a User role
             const user = await this.user.create({
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
-                city,
-                // documentAttachments: string[];
+                status,
                 password,
-                roles: [roleUser.value],
 
-                documents: fileLinks.map((link: any) => link.split("/src/public/files/documents/attachments/").join("/")),
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
+                city,
+
+                // Additional Data
+                comment,
+
+                // Optional Data
+                images: fileLinks.map((link: any) => link.split("/src/public/files/images/attachments/").join("/")),
             });
 
             // Based on the Data created for the User, 
@@ -240,17 +262,26 @@ class UserService {
      */
      public async updateMyProfile(
         userId: object | string,
-        name: string,
-        lastname: string,
-        surname: string,
-        dateBirth: string,
-        speciality: string,
+        // Required Data
+        username: string,
+        fullname: string,
         phoneNumber: string,
+        status: string,
+        password: string,
+
+        // Optional Data
+        email: string,
+        dateBirth: string,
+        gip: string,
+        belt: string,
         city: string,
+
+        // Additional Data
+        comment: string,
 
         statusChangeFile: any,
 
-        documents: any,
+        images: any,
         req: any,
     ): Promise<string | object | null | Error> {
         try {
@@ -271,31 +302,48 @@ class UserService {
                 throw new Error('User Phone Number already exists!');
             }
 
+            // We are looking for a User with the same Email that was specified in the request body
+            const usernameIsExist = await this.user.findOne({ _id: { $ne: user._id }, username });
+
+            // If the User with such phone number already exists, then we display an error
+            if (usernameIsExist) {
+                throw new Error('Username already exists!');
+            }
+
             // All fields from the request body, 
             // the values of which we want to update for the database in the fields of the User, 
             // are added to one object
             const userFields: any = {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
+
+                // Additional Data
+                comment,
             };
 
-            if (Boolean(statusChangeFile) === false && documents === undefined) {
-                userFields.documents = [];
+            if (Boolean(statusChangeFile) === false && images === undefined) {
+                userFields.images = [];
             }
 
-            if (documents && Boolean(statusChangeFile) === true) {
+            if (images && Boolean(statusChangeFile) === true) {
                 // Link generation for subsequent access to the product's image
-                const fileLinks = documents.map((file: any) => `${req.protocol}://${req.headers.host
-                }/files/documents/attachments/${file.path.split("\\").pop()}`);
+                const fileLinks = images.map((file: any) => `${req.protocol}://${req.headers.host
+                }/files/images/attachments/${file.path.split("\\").pop()}`);
 
                 console.log("fileLinks: ", fileLinks);
 
-                userFields.documents = fileLinks.map((link: any) => link.split("/src/public/files/documents/attachments/").join("/"));
+                userFields.images = fileLinks.map((link: any) => link.split("/src/public/files/images/attachments/").join("/"));
             }
 
             // Update all entered fields in the request body in the database for the user

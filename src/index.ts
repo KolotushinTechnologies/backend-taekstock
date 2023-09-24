@@ -5,6 +5,7 @@ import App from './app';
 
 // For Admins
 import AdminUserController from './resources/user/admin/admin.user.controller';
+import ClientController from './resources/client/client.controller';
 
 // For Users
 import UserController from '@/resources/user/user.controller';
@@ -16,6 +17,7 @@ const app = new App(
     [
         // For Admins
         new AdminUserController(),
+        new ClientController(),
 
         // For Users
         new UserController(),
