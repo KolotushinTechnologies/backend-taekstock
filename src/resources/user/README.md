@@ -1,7 +1,7 @@
 # Requests For Users API's
 
 ### Registration Users
-POST http://localhost:8000/api/users/register
+POST http://213.189.201.213:9000/api/users/register
 
 request:
 
@@ -39,7 +39,7 @@ response:
 ```
 
 ### Login Users
-POST http://localhost:8000/api/users/login
+POST http://213.189.201.213:9000/api/users/login
 
 request:
 
@@ -64,7 +64,7 @@ response:
 ```
 
 ### Update My Profile (For Authorized User)
-PUT http://localhost:8000/api/users/update-my-profile
+PUT http://213.189.201.213:9000/api/users/update-my-profile
 
 request:
 
@@ -147,7 +147,7 @@ response:
 ```
 
 ### Get User Data (For Authorized User)
-GET http://localhost:8000/api/users
+GET http://213.189.201.213:9000/api/users
 
 request:
 

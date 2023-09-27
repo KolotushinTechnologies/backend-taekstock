@@ -1,7 +1,7 @@
 # Requests For Users API's For Admins 
 
 ### Registration Users
-POST http://localhost:8000/api/admin/users/register-user
+POST http://213.189.201.213:9000/api/admin/users/register-user
 
 request:
 
@@ -39,7 +39,7 @@ response:
 ```
 
 ### Get all users
-GET http://localhost:8000/api/admin/users/all
+GET http://213.189.201.213:9000/api/admin/users/all
 
 response: 
 
@@ -97,7 +97,7 @@ response:
 ```
 
 ### Get user by ID
-GET http://localhost:8000/api/admin/users/:user_id
+GET http://213.189.201.213:9000/api/admin/users/:user_id
 
 request:
 
@@ -105,7 +105,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/users/6513f5fbaab1c9b6d54fbb83
+http://213.189.201.213:9000/api/admin/users/6513f5fbaab1c9b6d54fbb83
 
 response: 
 
@@ -127,7 +127,7 @@ response:
 ```
 
 ### Search Users
-POST http://localhost:8000/api/admin/users/searching/all
+POST http://213.189.201.213:9000/api/admin/users/searching/all
 
 request:
 
@@ -167,7 +167,7 @@ response:
 ```
 
 ### Update Information For user by ID
-PUT http://localhost:8000/api/admin/users/update/:user_id
+PUT http://213.189.201.213:9000/api/admin/users/update/:user_id
 
 request:
 
@@ -214,7 +214,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/users/update/6513f5fbaab1c9b6d54fbb83
+http://213.189.201.213:9000/api/admin/users/update/6513f5fbaab1c9b6d54fbb83
 
 ```json
 {
@@ -256,7 +256,7 @@ response:
 ```
 
 ### Delete user by ID
-DELETE http://localhost:8000/api/admin/users/:user_id
+DELETE http://213.189.201.213:9000/api/admin/users/:user_id
 
 request:
 
@@ -266,7 +266,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/users/64fbb2c5276e46234e7b9014
+http://213.189.201.213:9000/api/admin/users/64fbb2c5276e46234e7b9014
 
 response: 
 

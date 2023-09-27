@@ -1,7 +1,7 @@
 # Requests For Users API's For Admins 
 
 ### Create a New Client
-POST http://localhost:8000/api/admin/clients/create-client
+POST http://213.189.201.213:9000/api/admin/clients/create-client
 
 request:
 
@@ -97,7 +97,7 @@ response:
 ```
 
 ### Get all clients
-GET http://localhost:8000/api/admin/clients/all
+GET http://213.189.201.213:9000/api/admin/clients/all
 
 response: 
 
@@ -129,7 +129,7 @@ response:
 ```
 
 ### Get client by ID
-GET http://localhost:8000/api/admin/clients/:client_id
+GET http://213.189.201.213:9000/api/admin/clients/:client_id
 
 request:
 
@@ -137,7 +137,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/clients/6513fb498dc79cff0a812bf7
+http://213.189.201.213:9000/api/admin/clients/6513fb498dc79cff0a812bf7
 
 response: 
 
@@ -167,7 +167,7 @@ response:
 ```
 
 ### Search Clients
-POST http://localhost:8000/api/admin/clients/searching/all
+POST http://213.189.201.213:9000/api/admin/clients/searching/all
 
 request:
 
@@ -209,7 +209,7 @@ response:
 ```
 
 ### Update Information For client by ID
-PUT http://localhost:8000/api/admin/clients/update/:client_id
+PUT http://213.189.201.213:9000/api/admin/clients/update/:client_id
 
 request:
 
@@ -272,7 +272,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/clients/update/6513fb498dc79cff0a812bf7
+http://213.189.201.213:9000/api/admin/clients/update/6513fb498dc79cff0a812bf7
 
 ```json
 {
@@ -330,7 +330,7 @@ response:
 ```
 
 ### Delete user by ID
-DELETE http://localhost:8000/api/admin/clients/:user_id
+DELETE http://213.189.201.213:9000/api/admin/clients/:user_id
 
 request:
 
@@ -340,7 +340,7 @@ params:
 
 *user_id: required
 
-http://localhost:8000/api/admin/clients/6513fb498dc79cff0a812bf7
+http://213.189.201.213:9000/api/admin/clients/6513fb498dc79cff0a812bf7
 
 response: 
 
