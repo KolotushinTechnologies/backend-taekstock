@@ -10,8 +10,8 @@ const ClientSchema = new Schema(
     {
         // Required Data
         fullname: { type: String, trim: true, rquired: true },
-        branch: { type: Schema.Types.ObjectId, ref: 'Branch', trim: true, rquired: true }, // Филиал
-        group: { type: Schema.Types.ObjectId, ref: 'Group', trim: true, rquired: true }, // Группа
+        branch: { type: Schema.Types.ObjectId, ref: 'Branch', trim: true }, // Филиал
+        group: { type: Schema.Types.ObjectId, ref: 'Group', trim: true }, // Группа
         dateBirth: { type: String, trim: true, rquired: true },
         clientStatus: { type: String, trim: true, rquired: true },
 

@@ -33,7 +33,6 @@ class UserController implements Controller {
         // @access   Public
         this.router.post(
             `${this.path}/register`,
-            multer.array('images'),
             this.register
         );
 
@@ -113,14 +112,8 @@ class UserController implements Controller {
                 dateBirth,
                 gip,
                 belt,
-                city,
-
-                // Additional Data
-                comment
+                city
             } = req.body;
-
-            // Optional Data
-            const images: any = req.files;
             
             // Generating a token using a User Service Register
             // Attaching data received from the request
@@ -137,14 +130,7 @@ class UserController implements Controller {
                 dateBirth,
                 gip,
                 belt,
-                city,
-
-                // Additional Data
-                comment,
-
-                // Optional Data
-                images,
-                req,
+                city
             );
             
             // In case of successful token generation, 
@@ -167,11 +153,11 @@ class UserController implements Controller {
     ): Promise<Response | void> => {
         try {
             // Getting data from a request
-            const { phoneNumber, password } = req.body;
+            const { username, password } = req.body;
 
             // Generating a token using a User Service Login
             // Attaching data received from the request
-            const token = await this.UserService.login(phoneNumber, password);
+            const token = await this.UserService.login(username, password);
 
             // In case of successful token generation, 
             // we return to the User a token with which the User will be 

@@ -15,7 +15,7 @@ import ClientService from '@/resources/client/client.service';
 // Create Client Controller
 class ClientController implements Controller {
     // Base path
-    public path = '/clients';
+    public path = '/admin/clients';
     public router = Router();
     // Connect Client Service
     private ClientService = new ClientService();

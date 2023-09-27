@@ -32,14 +32,7 @@ class UserService {
         dateBirth: string,
         gip: string,
         belt: string,
-        city: string,
-
-        // Additional Data
-        comment: string,
-
-        // Optional Data
-        images: any,
-        req: any,
+        city: string
     ): Promise<string | Error> {
         try {
             // We are looking for the role of the User for future assignment
@@ -69,9 +62,6 @@ class UserService {
                 throw new Error('Server Error');
             }
 
-            const fileLinks = images.map((file: any) => `${req.protocol}://${req.headers.host
-                }/files/images/attachments/${file.path.split("\\").pop()}`);
-
             // If the User's Phone Number is not busy, then create a new User. Adding a User role
             const user = await this.user.create({
                 // Required Data
@@ -88,11 +78,7 @@ class UserService {
                 belt,
                 city,
 
-                // Additional Data
-                comment,
-
-                // Optional Data
-                images: fileLinks.map((link: any) => link.split("/src/public/files/images/attachments/").join("/")),
+                roles: [roleUser.value],
             });
 
             // Based on the Data created for the User, 
@@ -112,12 +98,12 @@ class UserService {
      * Attempt to login a user
      */
     public async login(
-        phoneNumber: string,
+        username: string,
         password: string
     ): Promise<string | Error> {
         try {
             // User search by Phone Number
-            const user = await this.user.findOne({ phoneNumber });
+            const user = await this.user.findOne({ username });
 
             // If the User with such mail does not exist, then we return an error
             if (!user) {

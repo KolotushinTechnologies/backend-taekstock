@@ -13,25 +13,29 @@ class AdminUserService {
      * Register a new user for agent
      */
     public async register(
-        name: string,
-        lastname: string,
-        surname: string,
-        dateBirth: string,
-        speciality: string,
+        // Required Data
+        username: string,
+        fullname: string,
         phoneNumber: string,
-        city: string,
-        // documentAttachments: string[]string,
+        status: string,
         password: string,
-        comment: string,
+
+        // Optional Data
+        email: string,
+        dateBirth: string,
+        gip: string,
+        belt: string,
+        city: string,
+        comment: string
     ): Promise<string | Error> {
         try {
             // We are looking for the role of the User for future assignment
-            const roleUser: any = await this.role.findOne({ value: 'Agent' });
+            const roleUser: any = await this.role.findOne({ value: 'User' });
 
             // If there are no roles in the database, then create a user role
             if (!roleUser) {
                 await this.role.create({
-                    value: 'Agent',
+                    value: 'User',
                 });
             }
 
@@ -45,24 +49,36 @@ class AdminUserService {
                 throw new Error('Server Error');
             }
 
+            const usernameIsExist = await this.user.findOne({ username });
+
+            // If the User with such Username already exists, then we issue an error
+            if (usernameIsExist) {
+                throw new Error('Server Error');
+            }
+
             // If the User's Phone Number is not busy, then create a new User. Adding a User role
             const user = await this.user.create({
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
-                city,
-                // documentAttachments: string[];
+                status,
                 password,
-                roles: [roleUser.value],
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
+                city,
                 comment,
+
+                roles: [roleUser.value],
             });
 
             // If everything is successful, 
             // then return the access token to the User Profile
-            return "Агент успешно зарегистрирован!"
+            return "Пользователь успешно зарегистрирован!"
         } catch (error: any) {
             // Server Error
             throw new Error(error.message);
@@ -128,8 +144,8 @@ class AdminUserService {
             // We substitute the value of the regular expression 
             // so that you can find Users by the entered content
             const users = await this.user.find({ $or: [
-                { name: keywordRegExp },
-                { lastname: keywordRegExp },
+                { username: keywordRegExp },
+                { fullname: keywordRegExp },
                 { phoneNumber: keywordRegExp },
                 { roles: { $all: [keywordRegExp] } } 
             ]}).select('-password');
@@ -151,12 +167,18 @@ class AdminUserService {
      */
     public async updateUser(
         userId: object | string,
-        name: string,
-        lastname: string,
-        surname: string,
-        dateBirth: string,
-        speciality: string,
+        // Required Data
+        username: string,
+        fullname: string,
         phoneNumber: string,
+        status: string,
+        password: string,
+
+        // Optional Data
+        email: string,
+        dateBirth: string,
+        gip: string,
+        belt: string,
         city: string,
         comment: string
     ): Promise<string | object | null | Error> {
@@ -174,18 +196,31 @@ class AdminUserService {
 
             // If the User with such mail already exists, then we display an error
             if (userPhoneNumber) {
-                throw new Error('User Phone Number already exists!');
+                throw new Error('Server Error!');
+            }
+
+            const usernameIsExist = await this.user.findOne({ _id: { $ne: user._id }, username });
+
+            // If the User with such Username already exists, then we issue an error
+            if (usernameIsExist) {
+                throw new Error('Server Error');
             }
 
             // For custom fields that we need to update,
             // we create a separate object where we add them.
             const userFields = {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
                 comment,
             };

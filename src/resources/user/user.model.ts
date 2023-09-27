@@ -18,7 +18,7 @@ import User from '@/resources/user/user.interface';
 const UserSchema = new Schema(
     {
         // Required Data
-        username: { type: String, trim: true, required: true },
+        username: { type: String, trim: true, required: true, unique: true },
         fullname: { type: String, trim: true, required: true },
         phoneNumber: { type: String, trim: true, required: true },
         status: { type: String, trim: true, required: true },

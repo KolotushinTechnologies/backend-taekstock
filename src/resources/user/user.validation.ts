@@ -30,7 +30,7 @@ const register = Joi.object({
 });
 
 const login = Joi.object({
-    phoneNumber: Joi.string().required(),
+    username: Joi.string().required(),
 
     password: Joi.string().required(),
 });

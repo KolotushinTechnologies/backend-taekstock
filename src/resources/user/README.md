@@ -1,33 +1,32 @@
 # Requests For Users API's
 
 ### Registration Users
-POST http://213.189.201.213:8000/api/users/register
+POST http://localhost:8000/api/users/register
 
 request:
 
-*name: required
-*lastname: required
-*surname: required
-*dateBirth: required
-*speciality: required
+*username: required
+*fullname: required
 *phoneNumber: required
-*city: required
-*documents: Form-Data Request
+*status: required
 *password: required
+
+types for status field:
+- Спортсмен
+- Родитель(Опекун)
+- Тренер
+- Клуб
+- Федерация
 
 *user = Headers.Authorization
 
 ```json
 {
-    "name": "Иван",
-    "lastname": "Иванов",
-    "surname": "Иванович",
-    "dateBirth": "01.01.2000",
-    "speciality": "Матрос",
+    "username": "username",
+    "fullname": "Ivanov Ivan Ivanovich",
     "phoneNumber": "+79999999999",
-    "city": "Находка",
-    "documents": "Form-Data Request",
-    "password": "required",
+    "status": "Спортсмен",
+    "password": "123456789"
 }
 ```
 
@@ -35,23 +34,23 @@ response:
 
 ```json
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmYmIyYzUyNzZlNDYyMzRlN2I5MDE0Iiwicm9sZXMiOlsiVXNlciJdfSwiaWF0IjoxNjk0MjE4MTA4LCJleHAiOjE2OTQzMDQ1MDh9.Pvzn_aPyCKcj2e4xFc0naVPSZSK-f99t_QpXyLmGDp0"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUxM2UyZWViODhkN2RhYzBkMWNkZWIxIiwicm9sZXMiOltdfSwiaWF0IjoxNjk1ODAyMDk0LCJleHAiOjE2OTU4ODg0OTR9.X2RLgiJkZRpyC_mMhWXSQwkxqqfOi5YHC7jz-cV1Czk"
 }
 ```
 
 ### Login Users
-POST http://213.189.201.213:8000/api/users/login
+POST http://localhost:8000/api/users/login
 
 request:
 
-*phoneNumber: required
+*username: required
 *password: required
 
 *user = Headers.Authorization
 
 ```json
 {
-    "phoneNumber": "+799999999999",
+    "username": "username",
     "password": "123456789",
 }
 ```
@@ -65,31 +64,61 @@ response:
 ```
 
 ### Update My Profile (For Authorized User)
-PUT http://213.189.201.213:8000/api/users/update-my-profile
+PUT http://localhost:8000/api/users/update-my-profile
 
 request:
 
-*name: required
-*lastname: required
-*surname: required
-*dateBirth: required
-*speciality: required
-*phoneNumber: required
-*city: required
-*documentAttachments: Form-Data Request
+*username: required(optional for edit)
+*fullname: required(optional for edit)
+*phoneNumber: required(optional for edit)
+*status: required(optional for edit)
+*password: required(optional for edit)
+
+Optional Data:
+
+*email: string,
+*dateBirth: string,
+*gip: string,
+*belt: string,
+*city: string,
+
+*statusChangeFile: any,
 
 *user = Headers.Authorization
 
+gip types for belt type:
+- 10 гып === белый пояс
+- 9 гып === бело-желтый пояс
+- 8 гып === жеотый пояс
+- 7 гып === желто-зеленый пояс
+- 6 гып === зеленый пояс
+- 5 гып === зелено-синий пояс
+- 4 гып === синий пояс
+- 3 гып === сине-красный пояс
+- 2 гып === красный пояс
+- 1 гып === красно-черный пояс
+- 1 дан === черный пояс|1 дан
+- 2 дан === черный пояс|2 дан
+- 3 дан === черный пояс|3 дан
+- 4 дан === черный пояс|4 дан
+- 5 дан === черный пояс|5 дан
+- 6 дан === черный пояс|6 дан
+- 7 дан === черный пояс|7 дан
+- 8 дан === черный пояс|8 дан
+- 9 дан === черный пояс|9 дан
+
 ```json
 {
-    "name": "Иван",
-    "lastname": "Иванов",
-    "surname": "Иванович",
-    "dateBirth": "01.01.2000",
-    "speciality": "Матрос",
+    "username": "username",
+    "fullname": "Ivanov Ivan Ivanovich",
     "phoneNumber": "+79999999999",
-    "city": "Находка",
-    "documents": "Form-Data request",
+    "status": "Спортсмен",
+    "password": "123456789",
+    "email": "user@gmail.com",
+    "dateBirth": "01.01.2000",
+    "gip": "1 гып",
+    "belt": "красно-черный пояс",
+    "city": "Санкт-Петербург"
 }
 ```
 
@@ -97,29 +126,28 @@ response:
 
 ```json
 {
-    "_id": "64fbb2c5276e46234e7b9014",
-    "name": "Иван1",
-    "lastname": "Иванов1",
-    "surname": "Иванович1",
-    "dateBirth": "01.01.2001",
-    "speciality": "Матрос1",
-    "phoneNumber": "+79999999991",
-    "city": "Находка1",
-    "balance": 0,
+    "_id": "6513e40243824b9eac3a0bac",
+    "username": "username",
+    "fullname": "Ivanov Ivan Ivanovich",
+    "phoneNumber": "+79999999999",
+    "status": "Спортсмен",
     "roles": [
         "User"
     ],
-    "documents": [
-        "http://213.189.201.213:8000/files/documents/attachments/406e99e4-d7f1-4647-b11d-3cda66ed58f0.jpeg"
-    ],
-    "createdAt": "2023-09-08T23:48:21.688Z",
-    "updatedAt": "2023-09-09T00:12:03.972Z",
-    "__v": 0
+    "images": [],
+    "createdAt": "2023-09-27T08:12:50.713Z",
+    "updatedAt": "2023-09-27T08:30:53.836Z",
+    "__v": 0,
+    "belt": "красно-черный пояс",
+    "city": "Санкт-Петербург",
+    "dateBirth": "01.01.2000",
+    "email": "user@gmail.com",
+    "gip": "1 гып"
 }
 ```
 
 ### Get User Data (For Authorized User)
-GET http://213.189.201.213:8000/api/users
+GET http://localhost:8000/api/users
 
 request:
 
@@ -130,31 +158,23 @@ response:
 ```json
 {
     "data": {
-        "_id": "64fbb2c5276e46234e7b9014",
-        "name": "Иван",
-        "lastname": "Иванов",
-        "surname": "Иванович",
-        "dateBirth": "01.01.2000",
-        "speciality": "Матрос",
+        "_id": "6513e40243824b9eac3a0bac",
+        "username": "username",
+        "fullname": "Ivanov Ivan Ivanovich",
         "phoneNumber": "+79999999999",
-        "city": "Находка",
-        "balance": 0,
+        "status": "Спортсмен",
         "roles": [
             "User"
         ],
-        "documents": [
-            "http://213.189.201.213:8000/files/documents/attachments/31687623-0327-44f9-8c5a-110b484106fd.jpeg",
-            "http://213.189.201.213:8000/files/documents/attachments/cbfe46b5-7c40-4ebd-bee5-a9a244de9725.jpeg",
-            "http://213.189.201.213:8000/files/documents/attachments/28bb27ef-fb26-47a1-9f80-42782ef4e5fc.jpeg",
-            "http://213.189.201.213:8000/files/documents/attachments/b5349ba2-226c-4002-864a-803b03a5a197.jpg",
-            "http://213.189.201.213:8000/files/documents/attachments/3aba5d44-3dec-4721-a032-090d12cc298f.jpeg",
-            "http://213.189.201.213:8000/files/documents/attachments/d08b3d55-1386-4a9b-a5b9-7dc3c98e77b0.jpg",
-            "http://213.189.201.213:8000/files/documents/attachments/40b608ae-e8af-4f29-8e26-3cabe319356a.jpg",
-            "http://213.189.201.213:8000/files/documents/attachments/c4303e7f-a32f-4c4d-a1de-72ce095fa057.jpg"
-        ],
-        "createdAt": "2023-09-08T23:48:21.688Z",
-        "updatedAt": "2023-09-08T23:48:21.688Z",
-        "__v": 0
+        "images": [],
+        "createdAt": "2023-09-27T08:12:50.713Z",
+        "updatedAt": "2023-09-27T08:30:53.836Z",
+        "__v": 0,
+        "belt": "красно-черный пояс",
+        "city": "Санкт-Петербург",
+        "dateBirth": "01.01.2000",
+        "email": "user@gmail.com",
+        "gip": "1 гып"
     }
 }
 ```

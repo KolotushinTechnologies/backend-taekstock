@@ -26,11 +26,12 @@ class AdminUserController implements Controller {
     }
 
     private initializeRoutes(): void {
-        // @route    POST http://localhost:8000/api/admin/users/register-agent
-        // @desc     Registration Users For Agents
+        // @route    POST http://localhost:8000/api/admin/users/register-user
+        // @desc     Registration Users
         // @access   Public
         this.router.post(
-            `${this.path}/register-agent`,
+            `${this.path}/register-user`,
+            authenticated,
             roleMiddleware(['SuperAdmin']),
             this.register
         );
@@ -86,7 +87,7 @@ class AdminUserController implements Controller {
         );
     }
 
-    // @route    POST http://localhost:8000/api/users/register
+    // @route    POST http://localhost:8000/api/admin/users/register-user
     // @desc     Registration Users
     // @access   Public
     private register = async (
@@ -97,30 +98,38 @@ class AdminUserController implements Controller {
         try {
             // Getting data from a request
             const {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
-                city,
-                // documentAttachments: string[];
+                status,
                 password,
-                comment,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
+                city,
+                comment
             } = req.body;
             
             // Generating a token using a User Service Register
             // Attaching data received from the request
             const data = await this.AdminUserService.register(
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,   
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
-                // documentAttachments: string[];
-                password,
                 comment
             );
             
@@ -211,14 +220,20 @@ class AdminUserController implements Controller {
         try {
             // Getting data from a request
             const {
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
-                comment,
+                comment
             } = req.body;
 
             const userId = req.params.user_id;
@@ -226,12 +241,18 @@ class AdminUserController implements Controller {
             // Work User Service
             const userData = await this.AdminUserService.updateUser(
                 userId,
-                name,
-                lastname,
-                surname,
-                dateBirth,
-                speciality,
+                // Required Data
+                username,
+                fullname,
                 phoneNumber,
+                status,
+                password,
+
+                // Optional Data
+                email,
+                dateBirth,
+                gip,
+                belt,
                 city,
                 comment
             );
