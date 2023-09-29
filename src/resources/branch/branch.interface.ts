@@ -6,6 +6,8 @@ export default interface Branch extends Document {
     typeRent: string;
     priceRent: string | number;
 
+    groups: string[] | object[] | string | object;
+
     // Additional Data
     comment: string;
 }
