@@ -7,11 +7,24 @@ import BranchModel from '@/resources/branch/branch.model';
 // Import Users Resources For Stable Work
 import UserModel from '@/resources/user/user.model';
 
+// Import Student Group Resources For Stable Work
+import StudentGroupModel from '@/resources/studentGroup/studentGroup.model';
+
+// Import Clients Resources For Stable Work
+import ClientModel from '@/resources/client/client.model';
+
+// Нужно сделать:
+// 1. Добавление Клиента в группу +
+// 2. Удаление Клиента из группы
+// 3. Отмечать Клиентов в группе на тех, кто пришел или не пришел на занятия
+
 // Create Branch Service
 class GroupService {
     private group = GroupModel;
     private branch = BranchModel
     private user = UserModel;
+    private studentGroup = StudentGroupModel;
+    private client = ClientModel;
 
     /**
      * Create a new group
@@ -202,6 +215,51 @@ class GroupService {
             
             // Return updated group
             return groupUpdate;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+
+    public async confirmVisit(
+        groupId: string | object,
+        clientId: string | object,
+        dateName: string,
+        visited: boolean
+    ): Promise<string | object | null | Error> {
+        try {
+            const group = await this.group.findOne({ _id: groupId });
+
+            if (!group) {
+                throw new Error('Group not found!');
+            }
+
+            const client = await this.client.findOne({ _id: clientId });
+
+            if (!client) {
+                throw new Error('Client not found!');
+            }
+
+            if (!group.students.includes(client._id)) {
+                throw new Error('Group Client not found!');
+            }
+
+            const visitStudent = await this.studentGroup.create({
+                dateName,
+                group: group._id,
+                student: client._id,
+                visited
+            });
+
+            await this.group.findOneAndUpdate(
+                { _id: group._id },
+                {
+                    $addToSet: {
+                        visitedStudents: visitStudent._id
+                    }
+                }
+            );
+
+            return visitStudent;
         } catch (error: any) {
             throw new Error(error.message);
         }

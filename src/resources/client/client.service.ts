@@ -1,9 +1,27 @@
 // Import Users Resources For Stable Work
 import ClientModel from '@/resources/client/client.model';
 
+// Import Branchs Resources For Stable Work
+import BranchModel from '@/resources/branch/branch.model';
+
+// Import Groups Resources For Stable Work
+import GroupModel from '@/resources/group/group.model';
+
+// Import Student Groups Resources For Stable Work
+import StudentGroupModel from '@/resources/studentGroup/studentGroup.model';
+
+
+// Нужно сделать:
+// 1. Добавление Клиента в группу
+// 2. Удаление Клиента из группы
+// 3. Отмечать Клиентов в группе на тех, кто пришел или не пришел на занятия
+
 // Create Client Service
 class ClientService {
     private client = ClientModel;
+    private group = GroupModel;
+    private branch = BranchModel;
+    private studentGroup = StudentGroupModel;
 
     /**
      * Register a new user for agent
@@ -38,12 +56,30 @@ class ClientService {
             // ...
             // start
 
+            // 1. Добавление Клиента в группу и филиал
+
+            const branchExists = await this.branch.findOne({ _id: branch });
+            
+            if (!branchExists) {
+                throw new Error('Branch not found!');
+            }
+
+            const groupExists = await this.group.findOne({ _id: group });
+
+            if (!groupExists) {
+                throw new Error('Group not found!');
+            }
+
+            if (!branchExists.groups.includes(groupExists._id)) {
+                throw new Error('Group not found!');
+            }
+
             // If the User's Phone Number is not busy, then create a new User. Adding a User role
             const client = await this.client.create({
                 // Required Data
                 fullname,
-                branch,
-                group,
+                branch: branchExists._id,
+                group: groupExists._id,
                 dateBirth,
                 clientStatus,
 
@@ -64,6 +100,15 @@ class ClientService {
                 // Additional Data
                 comment,
             });
+
+            await this.group.findOneAndUpdate(
+                { _id: groupExists._id },
+                {
+                    $addToSet: {
+                        students: client._id
+                    }
+                }
+            );
 
             // If everything is successful, 
             // then return the access token to the User Profile
@@ -177,6 +222,24 @@ class ClientService {
     ): Promise<string | object | null | Error> {
         try {
             // Search for a client by ID in the database
+            // 1. Добавление Клиента в группу и филиал
+
+            const branchExists = await this.branch.findOne({ _id: branch });
+            
+            if (!branchExists) {
+                throw new Error('Branch not found!');
+            }
+
+            const groupExists = await this.group.findOne({ _id: group });
+
+            if (!groupExists) {
+                throw new Error('Group not found!');
+            }
+
+            if (!branchExists.groups.includes(groupExists._id)) {
+                throw new Error('Group not found!');
+            }
+
             const client = await this.client.findOne({ _id: clientId });
 
             // Checking if a client exists in the database
@@ -189,8 +252,8 @@ class ClientService {
             const clientFields = {
                 // Required Data
                 fullname,
-                branch,
-                group,
+                branch: branchExists._id,
+                group: groupExists._id,
                 dateBirth,
                 clientStatus,
 

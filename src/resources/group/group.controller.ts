@@ -29,7 +29,7 @@ class GroupController implements Controller {
         // Необходимо добавить регистрацию и логин для Администраторов и Инструкторов
 
         // @route    POST http://localhost:8000/api/admin/groups/create-group
-        // @desc     Create a New Branch
+        // @desc     Create a New Group
         // @access   Private
         this.router.post(
             `${this.path}/create-group`,
@@ -56,6 +56,16 @@ class GroupController implements Controller {
             authenticated,
             roleMiddleware(['Instructor','SuperAdmin']),
             this.getGroupById
+        );
+
+        // @route    GET http://localhost:8000/api/admin/groups/visit/:group_id
+        // @desc     Create visit for students(clients)
+        // @access   Private
+        this.router.post(
+            `${this.path}/visit/:group_id`,
+            authenticated,
+            roleMiddleware(['Instructor','SuperAdmin']),
+            this.confirmVisit
         );
 
         // @route    POST http://localhost:8000/api/admin/groups/searching/all
@@ -90,7 +100,7 @@ class GroupController implements Controller {
     }
 
     // @route    POST http://localhost:8000/api/admin/groups/create-group
-    // @desc     Create a New Branch
+    // @desc     Create a New Group
     // @access   Private
     private create = async (
         req: Request,
@@ -167,6 +177,42 @@ class GroupController implements Controller {
             
             // In case of successful then send 201 Status
             res.status(201).json(groupData);
+        } catch (error: any) {
+            // If incorrect Data for the request is entered, an error will be displayed
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    // @route    GET http://localhost:8000/api/admin/groups/visit/:group_id
+    // @desc     Create visit for students(clients)
+    // @access   Private
+    private confirmVisit = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            // Getting data from a request
+            const {
+                // Required Data
+                clientId,
+                dateName,
+                visited,
+            } = req.body;
+
+            // Getting data from a request
+            const groupId = req.params.group_id;
+            
+            // Work Group Service
+            const visitData = await this.GroupService.confirmVisit(
+                groupId,
+                clientId,
+                dateName,
+                visited
+            );
+            
+            // In case of successful then send 201 Status
+            res.status(201).json(visitData);
         } catch (error: any) {
             // If incorrect Data for the request is entered, an error will be displayed
             next(new HttpException(400, error.message));

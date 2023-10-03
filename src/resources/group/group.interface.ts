@@ -8,6 +8,9 @@ export default interface Group extends Document {
     timetable: string[] | string;
     potential: string;
 
+    students: object[];
+    visitedStudents: object[];
+
     // Additional Data
     comment: string;
 }

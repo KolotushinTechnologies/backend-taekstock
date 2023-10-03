@@ -14,6 +14,9 @@ const GroupSchema = new Schema(
         timetable: { type: [String], trim: true },
         potential: { type: String, trim: true },
 
+        students: [{ type: Schema.Types.ObjectId, ref: 'Client'}],
+        visitedStudents: [{ type: Schema.Types.ObjectId, ref: 'StudentGroup' }],
+
         // Additional Data
         comment: { type: String, trim: true }
     },
