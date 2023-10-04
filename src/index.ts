@@ -8,6 +8,7 @@ import AdminUserController from './resources/user/admin/admin.user.controller';
 import ClientController from './resources/client/client.controller';
 import BranchController from './resources/branch/branch.controller';
 import GroupController from './resources/group/group.controller';
+import CertificationController from './resources/certification/certification.controller';
 
 // For Users
 import UserController from '@/resources/user/user.controller';
@@ -22,6 +23,7 @@ const app = new App(
         new ClientController(),
         new BranchController(),
         new GroupController,
+        new CertificationController(),
 
         // For Users
         new UserController(),

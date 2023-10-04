@@ -1,7 +1,7 @@
 # Requests For Brachs API's For Admins 
 
 ### Create a New Branch
-POST http://localhost:8000/api/admin/branchs/create-branch
+POST http://213.189.201.213:9000/api/admin/branchs/create-branch
 
 request:
 
@@ -37,7 +37,7 @@ response:
 ```
 
 ### Get all branches
-GET http://localhost:8000/api/admin/branchs/all
+GET http://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/api/admin/branchs/all
 
 response: 
 
@@ -80,7 +80,7 @@ response:
 ```
 
 ### Get branch by ID
-GET http://localhost:8000/api/admin/branchs/:branch_id
+GET http://213.189.201.213:9000/api/admin/branchs/:branch_id
 
 request:
 
@@ -88,7 +88,7 @@ params:
 
 *branch_id: required
 
-http://localhost:8000/api/admin/branchs/651c23f39bbd6447c4322fc8
+http://213.189.201.213:9000/api/admin/branchs/651c23f39bbd6447c4322fc8
 
 response: 
 
@@ -107,7 +107,7 @@ response:
 ```
 
 ### Search Branches
-POST http://localhost:8000/api/admin/branchs/searching/all
+POST http://213.189.201.213:9000/api/admin/branchs/searching/all
 
 request:
 
@@ -138,7 +138,7 @@ response:
 ```
 
 ### Update Information For branch by ID
-PUT http://localhost:8000/api/admin/branchs/update/:branch_id
+PUT http://213.189.201.213:9000/api/admin/branchs/update/:branch_id
 
 request:
 
@@ -156,7 +156,7 @@ params:
 
 *branch_id: required
 
-http://localhost:8000/api/admin/branchs/update/651c24279bbd6447c4322fd2
+http://213.189.201.213:9000/api/admin/branchs/update/651c24279bbd6447c4322fd2
 
 ```json
 {
@@ -187,7 +187,7 @@ response:
 ```
 
 ### Delete branch by ID
-DELETE http://localhost:8000/api/admin/branchs/:branch_id
+DELETE http://213.189.201.213:9000/api/admin/branchs/:branch_id
 
 request:
 
@@ -197,7 +197,7 @@ params:
 
 *branch_id: required
 
-http://localhost:8000/api/admin/branchs/651c24279bbd6447c4322fd2
+http://213.189.201.213:9000/api/admin/branchs/651c24279bbd6447c4322fd2
 
 response: 
 

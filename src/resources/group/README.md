@@ -1,7 +1,7 @@
 # Requests For Groups API's For Admins 
 
 ### Create a New Group
-POST http://localhost:8000/api/admin/groups/create-group
+POST http://213.189.201.213:9000/api/admin/groups/create-group
 
 request:
 
@@ -56,7 +56,7 @@ response:
 ```
 
 ### Get all groups
-GET http://localhost:8000/api/admin/groups/all
+GET http://213.189.201.213:9000/api/admin/groups/all
 
 response: 
 
@@ -82,7 +82,7 @@ response:
 ```
 
 ### Get group by ID
-GET http://localhost:8000/api/admin/groups/:group_id
+GET http://213.189.201.213:9000/api/admin/groups/:group_id
 
 request:
 
@@ -90,7 +90,7 @@ params:
 
 *group_id: required
 
-http://localhost:8000/api/admin/groups/651c26b39bbd6447c4322ff1
+http://213.189.201.213:9000/api/admin/groups/651c26b39bbd6447c4322ff1
 
 response: 
 
@@ -114,7 +114,7 @@ response:
 ```
 
 ### Create visit for students(clients)
-POST http://localhost:8000/api/admin/groups/visit/:group_id
+POST http://213.189.201.213:9000/api/admin/groups/visit/:group_id
 
 request:
 
@@ -127,7 +127,7 @@ params:
 
 *group_id: required
 
-http://localhost:8000/api/admin/groups/visit/651c26b39bbd6447c4322ff1
+http://213.189.201.213:9000/api/admin/groups/visit/651c26b39bbd6447c4322ff1
 
 *user = Headers.Authorization
 
@@ -155,7 +155,7 @@ response:
 ```
 
 ### Search Groups
-POST http://localhost:8000/api/admin/groups/searching/all
+POST http://213.189.201.213:9000/api/admin/groups/searching/all
 
 request:
 
@@ -195,7 +195,7 @@ response:
 ```
 
 ### Update Information For group by ID
-PUT http://localhost:8000/api/admin/groups/update/:group_id
+PUT http://213.189.201.213:9000/api/admin/groups/update/:group_id
 
 request:
 
@@ -215,7 +215,7 @@ params:
 
 *group_id: required
 
-http://localhost:8000/api/admin/groups/update/651c26b39bbd6447c4322ff1
+http://213.189.201.213:9000/api/admin/groups/update/651c26b39bbd6447c4322ff1
 
 ```json
 {
@@ -257,7 +257,7 @@ response:
 ```
 
 ### Delete group by ID
-DELETE http://localhost:8000/api/admin/groups/:group_id
+DELETE http://213.189.201.213:9000/api/admin/groups/:group_id
 
 request:
 
@@ -267,7 +267,7 @@ params:
 
 *group_id: required
 
-http://localhost:8000/api/admin/groups/651c26b39bbd6447c4322ff1
+http://213.189.201.213:9000/api/admin/groups/651c26b39bbd6447c4322ff1
 
 response: 
 
