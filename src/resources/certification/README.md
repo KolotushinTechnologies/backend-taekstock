@@ -1,7 +1,7 @@
-# Requests For Groups API's For Admins 
+# Requests For Certifications API's For Admins 
 
 ### Create a New Certification
-POST http://localhost:8000/api/admin/certifications/create-certification
+POST http://213.189.201.213:9000/api/admin/certifications/create-certification
 
 request:
 
@@ -46,7 +46,7 @@ response:
 ```
 
 ### Get all certifications
-GET http://localhost:8000/api/admin/certifications/all
+GET http://213.189.201.213:9000/api/admin/certifications/all
 
 response: 
 
@@ -113,7 +113,7 @@ response:
 ```
 
 ### Get certification by ID
-GET http://localhost:8000/api/admin/certifications/:certification_id
+GET http://213.189.201.213:9000/api/admin/certifications/:certification_id
 
 request:
 
@@ -121,7 +121,7 @@ params:
 
 *certification_id: required
 
-http://localhost:8000/api/admin/certifications/651dd5c439bacd5e2241f59a
+http://213.189.201.213:9000/api/admin/certifications/651dd5c439bacd5e2241f59a
 
 response: 
 
@@ -174,8 +174,94 @@ response:
 }
 ```
 
+### Get Certification Students by ID
+GET http://213.189.201.213:9000/api/admin/certifications/students/:certification_id
+
+request:
+
+params:
+
+*certification_id: required
+
+http://213.189.201.213:9000/api/admin/certifications/students/651dd4140e357aa686ed13be
+
+response: 
+
+```json
+[
+    {
+        "_id": "651e0b48e1c2f61f61d31e88",
+        "certification": "651dd4140e357aa686ed13be",
+        "client": {
+            "_id": "651c28a51c4aefa49afcf203",
+            "fullname": "Иванов Иван Иванович",
+            "branch": "651c23f39bbd6447c4322fc8",
+            "group": "651c26b39bbd6447c4322ff1",
+            "dateBirth": "01.01.2000",
+            "clientStatus": "required",
+            "firstName": "Родитель",
+            "firstPhoneNumber": "+79999999999",
+            "secondName": "Родитель Два",
+            "secondPhoneNumber": "+78888888888",
+            "gender": "Мужчина",
+            "weight": "65",
+            "gip": "1 гып",
+            "rank": "КМС",
+            "certificateFrom": "1999-12-31T21:00:00.000Z",
+            "insuranceUpTo": "2000-01-11T21:00:00.000Z",
+            "athletePassport": "12121212321383",
+            "userId": "6513f529e085dcff6cd27ed1",
+            "comment": "Создать для него аккаунт",
+            "createdAt": "2023-10-03T14:43:49.084Z",
+            "updatedAt": "2023-10-03T14:43:49.084Z",
+            "__v": 0
+        },
+        "gipFrom": "1 gip",
+        "gipTo": "1 dan",
+        "comment": "New Certification Student",
+        "createdAt": "2023-10-05T01:03:04.785Z",
+        "updatedAt": "2023-10-05T01:03:04.785Z",
+        "__v": 0
+    },
+    {
+        "_id": "651e0b4ae1c2f61f61d31e90",
+        "certification": "651dd4140e357aa686ed13be",
+        "client": {
+            "_id": "651c28a51c4aefa49afcf203",
+            "fullname": "Иванов Иван Иванович",
+            "branch": "651c23f39bbd6447c4322fc8",
+            "group": "651c26b39bbd6447c4322ff1",
+            "dateBirth": "01.01.2000",
+            "clientStatus": "required",
+            "firstName": "Родитель",
+            "firstPhoneNumber": "+79999999999",
+            "secondName": "Родитель Два",
+            "secondPhoneNumber": "+78888888888",
+            "gender": "Мужчина",
+            "weight": "65",
+            "gip": "1 гып",
+            "rank": "КМС",
+            "certificateFrom": "1999-12-31T21:00:00.000Z",
+            "insuranceUpTo": "2000-01-11T21:00:00.000Z",
+            "athletePassport": "12121212321383",
+            "userId": "6513f529e085dcff6cd27ed1",
+            "comment": "Создать для него аккаунт",
+            "createdAt": "2023-10-03T14:43:49.084Z",
+            "updatedAt": "2023-10-03T14:43:49.084Z",
+            "__v": 0
+        },
+        "gipFrom": "1 gip",
+        "gipTo": "1 dan",
+        "comment": "New Certification Student",
+        "createdAt": "2023-10-05T01:03:06.183Z",
+        "updatedAt": "2023-10-05T01:03:06.183Z",
+        "__v": 0
+    }
+]
+```
+
 ### Add students to certification by ID
-POST http://localhost:8000/api/admin/certifications/add-students/:certification_id
+POST http://213.189.201.213:9000/api/admin/certifications/add-students/:certification_id
 
 request:
 
@@ -191,7 +277,7 @@ params:
 
 *certification_id: required
 
-http://localhost:8000/api/admin/certifications/add-students/651dd5c439bacd5e2241f59a
+http://213.189.201.213:9000/api/admin/certifications/add-students/651dd5c439bacd5e2241f59a
 
 *user = Headers.Authorization
 
@@ -248,7 +334,7 @@ response:
 ```
 
 ### Search Certifications
-POST http://localhost:8000/api/admin/certifications/searching/all
+POST http://213.189.201.213:9000/api/admin/certifications/searching/all
 
 request:
 
@@ -382,7 +468,7 @@ response:
 ```
 
 ### Update Information For certification by ID
-PUT http://localhost:8000/api/admin/certifications/update/:certification_id
+PUT http://213.189.201.213:9000/api/admin/certifications/update/:certification_id
 
 request:
 
@@ -400,7 +486,7 @@ params:
 
 *certification_id: required
 
-http://localhost:8000/api/admin/certifications/update/651dd5c439bacd5e2241f59a
+http://213.189.201.213:9000/api/admin/certifications/update/651dd5c439bacd5e2241f59a
 
 ```json
 {
@@ -534,7 +620,7 @@ response:
 ```
 
 ### Delete certification by ID
-DELETE http://localhost:8000/api/admin/certifications/:certification_id
+DELETE http://213.189.201.213:9000/api/admin/certifications/:certification_id
 
 request:
 
@@ -544,7 +630,7 @@ params:
 
 *certification_id: required
 
-http://localhost:8000/api/admin/certifications/651dd5c439bacd5e2241f59a
+http://213.189.201.213:9000/api/admin/certifications/651dd5c439bacd5e2241f59a
 
 response: 
 

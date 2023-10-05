@@ -96,6 +96,28 @@ class CertificationService {
     }
 
     /**
+     * Get certification students by ID
+     */
+    public async getCertificationStudentsById(
+        certificationId: object | string,
+    ): Promise<string | object | Error> {
+        try {
+            // Search for a Certification by ID in the database
+            const certificationStudents = await this.certificationStudent.find({ certification: certificationId }).populate('client');
+
+            // Checking if a group exists in the database
+            if (!certificationStudents) {
+                throw new Error('Certification Students Not Found!');
+            }
+
+            // If successful, return the Certification
+            return certificationStudents;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+
+    /**
      * Add students to certification by ID
      */
     public async addStudents(

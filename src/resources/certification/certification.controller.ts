@@ -58,6 +58,16 @@ class CertificationController implements Controller {
             this.getCertificationById
         );
 
+        // @route    GET http://localhost:8000/api/admin/certifications/students/:certification_id
+        // @desc     Get Certification Students by ID
+        // @access   Private
+        this.router.get(
+            `${this.path}/students/:certification_id`,
+            authenticated,
+            roleMiddleware(['Instructor','SuperAdmin']),
+            this.getCertificationStudentsById
+        );
+
         // @route    POST http://localhost:8000/api/admin/certifications/add-students/:certification_id
         // @desc     Add students to certification by ID
         // @access   Private
@@ -174,6 +184,29 @@ class CertificationController implements Controller {
             
             // In case of successful then send 201 Status
             res.status(201).json(certificationsData);
+        } catch (error: any) {
+            // If incorrect Data for the request is entered, an error will be displayed
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    // @route    GET http://localhost:8000/api/admin/certifications/students/:certification_id
+    // @desc     Get Certification Students by ID
+    // @access   Private
+    private getCertificationStudentsById = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            // Getting data from a request
+            const certificationId = req.params.certification_id;
+            
+            // Work Certification Service
+            const certificationStudentsData = await this.CertificationService.getCertificationStudentsById(certificationId);
+            
+            // In case of successful then send 201 Status
+            res.status(201).json(certificationStudentsData);
         } catch (error: any) {
             // If incorrect Data for the request is entered, an error will be displayed
             next(new HttpException(400, error.message));
