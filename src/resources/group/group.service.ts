@@ -87,7 +87,7 @@ class GroupService {
      public async getGroups(): Promise<string | object | Error> {
         try {
             // Accessing the Database to Get All Groups
-            const groups = await this.group.find({});
+            const groups = await this.group.find({}).populate('coach students');
 
             // Checking if there are groups in the database
             if (!groups) {
@@ -109,7 +109,7 @@ class GroupService {
     ): Promise<string | object | Error> {
         try {
             // Search for a Group by ID in the database
-            const group = await this.group.findOne({ _id: groupId });
+            const group = await this.group.findOne({ _id: groupId }).populate('coach students');
 
             // Checking if a group exists in the database
             if (!group) {
@@ -134,7 +134,7 @@ class GroupService {
             const groups = await this.group.find({ $or: [
                 { name: keywordRegExp },
                 { potential: keywordRegExp },
-            ]});
+            ]}).populate('coach students');
 
             // Checking if there are groups in the database
             if (!groups) {
