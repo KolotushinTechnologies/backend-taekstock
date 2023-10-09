@@ -41,7 +41,7 @@ class BranchService {
      public async getBranchs(): Promise<string | object | Error> {
         try {
             // Accessing the Database to Get All Branchs
-            const branchs = await this.branch.find({});
+            const branchs = await this.branch.find({}).populate('groups');
 
             // Checking if there are branchs in the database
             if (!branchs) {
@@ -63,7 +63,7 @@ class BranchService {
     ): Promise<string | object | Error> {
         try {
             // Search for a branch by ID in the database
-            const branch = await this.branch.findOne({ _id: branchId });
+            const branch = await this.branch.findOne({ _id: branchId }).populate('groups');
 
             // Checking if a branch exists in the database
             if (!branch) {
@@ -89,7 +89,7 @@ class BranchService {
                 { name: keywordRegExp },
                 { typeRent: keywordRegExp },
                 { priceRent: keywordRegExp },
-            ]});
+            ]}).populate('groups');
 
             // Checking if there are branchs in the database
             if (!branchs) {
@@ -150,7 +150,7 @@ class BranchService {
             }
             
             // Search for updated branch
-            const branchUpdate = await this.branch.findOne({ _id: branch._id });
+            const branchUpdate = await this.branch.findOne({ _id: branch._id }).populate('groups');
             
             // Return updated branch
             return branchUpdate;

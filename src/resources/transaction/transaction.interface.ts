@@ -1,6 +1,11 @@
 import { Document } from 'mongoose';
 
 export default interface Paymnet extends Document {
+    fullname: string;
+    type: string;
+    email: string;
+    phoneNumber: string;
+    coach: string;
     transactionId: string;
     amount: string;
     description: string;

@@ -50,19 +50,19 @@ class PaymentController implements Controller {
         );
 
         // @route    GET http://localhost:5000/api/payments/order/:transaction_id
-        // @desc     et Transaction ID
+        // @desc     Get Transaction ID
         // @access   Public
         this.router.get(
             `${this.path}/transaction/:transaction_id`,
             this.getOrderId
         );
 
-        // @route    GET http://localhost:5000/api/payments/success-orders
-        // @desc     Get Successfully Orders
+        // @route    GET http://localhost:5000/api/payments/transactions
+        // @desc     Get All Transactions
         // @access   Public
         this.router.get(
-            `${this.path}/success-orders`,
-            this.getSuccessfullyOrders
+            `${this.path}/transactions`,
+            this.getAllTransactions
         );
     }
 
@@ -78,9 +78,15 @@ class PaymentController implements Controller {
             const resp = await acquiring.register(req.body.orderNumber, req.body.amount, req.body.description);
 
             await TransactionModel.create({
+                fullname: req.body.fullname,
+                type: req.body.type,
+                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
+                coach: req.body.coach,
                 transactionId: resp.orderId,
                 amount: req.body.amount,
-                description: req.body.description
+                description: req.body.description,
+                status: 'В обработке'
             });
 
             return res.status(200).json(resp);
@@ -118,7 +124,7 @@ class PaymentController implements Controller {
     }
 
     // @route    POST http://localhost:5000/api/payments/transaction/:transaction_id
-    // @desc     et Transaction ID
+    // @desc     Get Transaction ID
     // @access   Public
     async getOrderId(
         req: Request,
@@ -134,7 +140,7 @@ class PaymentController implements Controller {
                 { transactionId: transactionId },
                 {
                     $set: {
-                        status: paymentInfo?.errorMessage
+                        status: paymentInfo?.paymentAmountInfo?.paymentState == 'DEPOSITED' ? 'Успешно' : 'Ожидание ответа'
                     }
                 },
                 { new: true },
@@ -148,16 +154,16 @@ class PaymentController implements Controller {
 
     }
 
-    // @route    GET http://localhost:5000/api/payments/success-orders
-    // @desc     Get Successfully Orders
+    // @route    GET http://localhost:5000/api/payments/transactions
+    // @desc     Get All Transactions
     // @access   Public
-    async getSuccessfullyOrders(
+    async getAllTransactions(
         req: Request,
         res: Response,
         next: NextFunction
     ) {
         try {
-            const orders = await TransactionModel.find({ status: "Успешно" });
+            const orders = await TransactionModel.find();
 
             return res.status(200).json(orders);
         } catch (error: any) {
