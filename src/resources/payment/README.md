@@ -1,7 +1,7 @@
 # Requests For Payment API's
 
 ### Send Form
-http://localhost:5000/api/payments/send-form
+http://213.189.201.213:9000/api/payments/send-form
 
 request:
 
@@ -27,7 +27,7 @@ response:
 ```
 
 ### Get Transaction ID
-http://localhost:5000/api/payments/transaction/:transaction_id
+http://213.189.201.213:9000/api/payments/transaction/:transaction_id
 
 request:
 
@@ -35,7 +35,7 @@ params:
 
 *transaction_id: required
 
-http://localhost:5000/api/payments/transaction/d9daa1e0-8bf0-77a1-b16e-58d50014c4e0
+http://213.189.201.213:9000/api/payments/transaction/d9daa1e0-8bf0-77a1-b16e-58d50014c4e0
 
 response: 
 
