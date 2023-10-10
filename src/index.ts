@@ -11,6 +11,7 @@ import GroupController from './resources/group/group.controller';
 import CertificationController from './resources/certification/certification.controller';
 import CompetitionsController from './resources/competitions/competitions.controller';
 import PaymentController from './resources/payment/payment.controller';
+import CampController from './resources/camps/camps.controller';
 
 // For Users
 import UserController from '@/resources/user/user.controller';
@@ -28,6 +29,7 @@ const app = new App(
         new CertificationController(),
         new CompetitionsController(),
         new PaymentController(),
+        new CampController(),
 
         // For Users
         new UserController(),

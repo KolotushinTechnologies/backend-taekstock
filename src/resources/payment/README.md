@@ -104,11 +104,11 @@ response:
 ```
 
 ### Get All Transactions
-http://localhost:8000/api/payments/transactions
+http://213.189.201.213:9000/api/payments/transactions
 
 request:
 
-GET http://localhost:8000/api/payments/transactions
+GET http://213.189.201.213:9000/api/payments/transactions
 
 response: 
 
