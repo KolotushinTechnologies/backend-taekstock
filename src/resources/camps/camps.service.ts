@@ -170,6 +170,98 @@ class CampService {
     }
 
     /**
+     * Remove students to camp by ID
+     */
+    public async removeStudents(
+        campStudentId: string | object,
+        campId: string | object,
+    ): Promise<string | object | null | Error> {
+        try {
+            const campStudent = await this.campStudent.findOne({ _id: campStudentId, camp: campId });
+
+            if (!campStudent) {
+                throw new Error('Camp Student not found!');
+            }
+
+            await this.campStudent.deleteOne({ _id: campStudent._id, camp: campId });
+
+            const camp = await this.camp.findByIdAndUpdate(
+                { _id: campId },
+                {
+                    $pull: {
+                        students: campStudentId
+                    }
+                },
+                {
+                    new: true
+                }
+            );
+
+            return camp;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+
+    /**
+     * Update students for camp by ID
+     */
+    public async updateStudents(
+        campStudentId: string | object,
+        campId: string | object,
+        // Required Data
+        client: string | object,
+        externalClient: string,
+        dateBirth: string,
+        phoneNumber: string,
+
+        // Additional Data
+        comment: string,
+    ): Promise<string | object | null | Error> {
+        try {
+            const camp = await this.camp.findOne({ _id: campId });
+
+            if (!camp) {
+                throw new Error('Camp not found!');
+            }
+
+            const campStudentExists = await this.campStudent.findOne({ _id: campStudentId, camp: campId });
+
+            if (!campStudentExists) {
+                throw new Error('Camp Student not found!');
+            }
+
+            const clientExists = await this.client.findOne({ _id: client });
+
+            if (!clientExists) {
+                throw new Error('Client not found!');
+            }
+
+            const campStudent = await this.campStudent.findOneAndUpdate(
+                { _id: campStudentExists._id, camp: camp },
+                {
+                // Required Data
+                camp: camp._id,
+                client: clientExists._id,
+                externalClient,
+                dateBirth,
+                phoneNumber,
+
+                // Additional Data
+                comment,
+                },
+                { new: true }
+            ).populate({
+                path: 'client'
+            });
+
+            return campStudent
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+
+    /**
      * Search Camps
      */
     public async findCamps(content: string): Promise<string | object | Error> {

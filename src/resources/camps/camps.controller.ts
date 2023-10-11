@@ -78,6 +78,26 @@ class CampController implements Controller {
             this.addStudents
         );
 
+        // @route    POST http://localhost:8000/api/admin/camps/remove-students/:camp_student_id/:camp_id
+        // @desc     Remove students from camp by ID
+        // @access   Private
+        this.router.delete(
+            `${this.path}/remove-students/:camp_student_id/:camp_id`,
+            authenticated,
+            roleMiddleware(['Instructor','SuperAdmin']),
+            this.removeStudents
+        );
+
+        // @route    PUT http://localhost:8000/api/admin/camps/update-students/:camp_student_id/:camp_id
+        // @desc     Update Information For Student Camp by ID
+        // @access   Private
+        this.router.put(
+            `${this.path}/update-students/:camp_student_id/:camp_id`,
+            authenticated,
+            roleMiddleware(['Instructor','SuperAdmin']),
+            this.updateStudents
+        );
+
         // @route    POST http://localhost:8000/api/admin/camps/searching/all
         // @desc     Search Camps
         // @access   Private
@@ -235,6 +255,82 @@ class CampController implements Controller {
             
             // Work Group Service
             const campData = await this.CampService.addStudents(
+                campId,
+                // Required Data
+                client,
+                externalClient,
+                dateBirth,
+                phoneNumber,
+
+                // Additional Data
+                comment,
+            );
+            
+            // In case of successful then send 201 Status
+            res.status(201).json(campData);
+        } catch (error: any) {
+            // If incorrect Data for the request is entered, an error will be displayed
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    // @route    DELETE http://localhost:8000/api/admin/camps/remove-students/:camp_student_id/:camp_id
+    // @desc     Remove students from camp by ID
+    // @access   Private
+    private removeStudents = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            // Getting data from a request
+
+            // Getting data from a request
+            const campStudentId = req.params.camp_student_id;
+            const campId = req.params.camp_id;
+            
+            // Work Group Service
+            const campData = await this.CampService.removeStudents(
+                campStudentId,
+                campId
+            );
+            
+            // In case of successful then send 201 Status
+            res.status(201).json(campData);
+        } catch (error: any) {
+            // If incorrect Data for the request is entered, an error will be displayed
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    // @route    PUT http://localhost:8000/api/admin/camps/update-students/:camp_student_id/:camp_id
+    // @desc     Update Information For Student Camp by ID
+    // @access   Private
+    private updateStudents = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            // Getting data from a request
+            const {
+                // Required Data
+                client,
+                externalClient,
+                dateBirth,
+                phoneNumber,
+
+                // Additional Data
+                comment,
+            } = req.body;
+
+            // Getting data from a request
+            const campStudentId = req.params.camp_student_id;
+            const campId = req.params.camp_id;
+            
+            // Work Group Service
+            const campData = await this.CampService.updateStudents(
+                campStudentId,
                 campId,
                 // Required Data
                 client,
