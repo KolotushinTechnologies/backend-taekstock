@@ -214,7 +214,7 @@ response:
 ```
 
 ### Remove students from camp by ID
-DELETE http://localhost:8000/api/admin/camps/remove-students/:camp_student_id/:camp_id
+DELETE http://213.189.201.213:9000/api/admin/camps/remove-students/:camp_student_id/:camp_id
 
 request:
 
@@ -223,7 +223,7 @@ params:
 *camp_student_id: required
 *camp_id: required
 
-http://localhost:8000/api/admin/camps/remove-students/65265dace5bdff47d807e560/6525befa3ec99f7aa6b9bc8b
+http://213.189.201.213:9000/api/admin/camps/remove-students/65265dace5bdff47d807e560/6525befa3ec99f7aa6b9bc8b
 
 *user = Headers.Authorization
 
@@ -246,7 +246,7 @@ response:
 ```
 
 ### Update Information For Student Camp by ID
-POST http://localhost:8000/api/admin/camps/update-students/:camp_student_id/:camp_id
+POST http://213.189.201.213:9000/api/admin/camps/update-students/:camp_student_id/:camp_id
 
 request:
 
@@ -264,7 +264,7 @@ params:
 *camp_student_id: required
 *camp_id: required
 
-http://localhost:8000/api/admin/camps/update-students/65265daee5bdff47d807e568/6525befa3ec99f7aa6b9bc8b
+http://213.189.201.213:9000/api/admin/camps/update-students/65265daee5bdff47d807e568/6525befa3ec99f7aa6b9bc8b
 
 *user = Headers.Authorization
 
