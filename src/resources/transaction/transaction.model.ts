@@ -16,6 +16,10 @@ const TransactionSchema = new Schema(
         amount: { type: String, trim: true, required: true },
         description: { type: String, trim: true, required: true },
         status: { type: String, trim: true },
+
+        userId: { type: Schema.Types.ObjectId, ref: 'User' },
+        userStatus: { type: String, trim: true },
+        paymentPlace: { type: String, trim: true },
     },
     { timestamps: true }
 );

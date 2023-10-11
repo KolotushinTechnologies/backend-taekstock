@@ -5,8 +5,15 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
 import HttpException from '@/utils/exceptions/http.exception';
 
+// Import Middlewares
+import authenticated from '@/middleware/authenticated.middleware';
+import roleMiddleware from '@/middleware/role.middleware';
+
 // Import Transactions Resources For Stable Work
 import TransactionModel from '@/resources/transaction/transaction.model';
+
+// Import Users Resources For Stable Work
+import UserModel from '@/resources/user/user.model';
 
 import Acquiring from 'sberbank-acquiring';
 
@@ -41,6 +48,15 @@ class PaymentController implements Controller {
             this.register
         );
 
+        // @route    GET http://localhost:5000/api/payments/user-transactions
+        // @desc     Get User Transactions
+        // @access   Private
+        this.router.get(
+            `${this.path}/user-transactions`,
+            authenticated,
+            this.getUserTransactions
+        );
+
         // @route    GET http://localhost:5000/api/payments/last-order
         // @desc     Get Last Order
         // @access   Public
@@ -62,6 +78,8 @@ class PaymentController implements Controller {
         // @access   Public
         this.router.get(
             `${this.path}/transactions`,
+            authenticated,
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.getAllTransactions
         );
     }
@@ -75,9 +93,11 @@ class PaymentController implements Controller {
         next: NextFunction
     ) {
         try {
+            const { userId, userStatus, paymentPlace } = req.body;
+
             const resp = await acquiring.register(req.body.orderNumber, req.body.amount, req.body.description);
 
-            await TransactionModel.create({
+            const transaction = await TransactionModel.create({
                 fullname: req.body.fullname,
                 type: req.body.type,
                 email: req.body.email,
@@ -89,6 +109,20 @@ class PaymentController implements Controller {
                 status: 'В обработке'
             });
 
+            if (paymentPlace == 'Личный кабинет спортсмена') {
+                await TransactionModel.findOneAndUpdate(
+                    { _id: transaction._id },
+                    {
+                        $set: {
+                            userId: userId,
+                            userStatus: userStatus,
+                            paymentPlace: paymentPlace
+                        }
+                    },
+                    { new: true }
+                );
+            }
+
             return res.status(200).json(resp);
         } catch (error: any) {
             // If incorrect Data for the request is entered, an error will be displayed
@@ -96,6 +130,36 @@ class PaymentController implements Controller {
             next(new HttpException(400, error.message));
         }
 
+    }
+
+    // @route    GET http://localhost:5000/api/payments/user-transactions
+    // @desc     Get User Transactions
+    // @access   Private
+    async getUserTransactions(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const userId = req.user.id;
+
+            const userExists = await UserModel.findOne({ _id: userId });
+
+            if (!userExists) {
+                return next(new HttpException(404, 'No logged in user'));
+            }
+
+            const transactions = await TransactionModel.find({ userId: userExists._id });
+
+            if (!transactions) {
+                throw new Error('Transactions not found!');
+            }
+
+            return res.status(200).json(transactions);
+        } catch (error: any) {
+            // If incorrect Data for the request is entered, an error will be displayed
+            next(new HttpException(400, error.message));
+        }
     }
 
     // @route    GET http://localhost:5000/api/payments/last-order

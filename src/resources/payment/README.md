@@ -14,6 +14,12 @@ request:
 *amount: required
 *description: required
 
+// additional fieldss
+*userId: optional;
+*userStatus: optional;
+*paymentPlace: optional;
+
+if not user profile
 ```json
 {
     "fullname": "Колотушин Михаил Геннадьевич",
@@ -27,6 +33,24 @@ request:
 }
 ```
 
+if user profile
+```json
+{
+    "fullname": "Колотушин Михаил Геннадьевич",
+    "type": "Тренировки",
+    "email": "kolotushintechnologies@gmail.com",
+    "phoneNumber": "+79215716057",
+    "coach": "Смышляев Сергей Николаевич",
+    "orderNumber": "1111309",
+    "amount": "10",
+    "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+
+    "userId": "6513e40243824b9eac3a0bac",
+    "userStatus": "Спортсмен",
+    "paymentPlace": "Личный кабинет спортсмена"
+}
+```
+
 response: 
 
 ```json
@@ -34,6 +58,38 @@ response:
     "orderId": "d9daa1e0-8bf0-77a1-b16e-58d50014c4e0",
     "formUrl": "https://securecardpayment.ru/payment/merchants/sbersafe_sberid/payment_ru.html?mdOrder=d9daa1e0-8bf0-77a1-b16e-58d50014c4e0"
 }
+```
+
+### Get User Transactions
+http://213.189.201.213:9000/api/payments/user-transactions
+
+request:
+
+*user = Headers.Authorization
+
+response: 
+
+```json
+[
+    {
+        "_id": "6525e1cc8000e40bb37c5a36",
+        "fullname": "Колотушин Михаил Геннадьевич",
+        "type": "Тренировки",
+        "email": "kolotushintechnologies@gmail.com",
+        "phoneNumber": "+79215716057",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "d7e290b7-4c4f-75ef-a621-f9750014c4e0",
+        "amount": "10",
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+        "status": "Успешно",
+        "createdAt": "2023-10-10T23:44:12.209Z",
+        "updatedAt": "2023-10-10T23:47:59.852Z",
+        "__v": 0,
+        "paymentPlace": "Личный кабинет спортсмена",
+        "userId": "6513e40243824b9eac3a0bac",
+        "userStatus": "Спортсмен"
+    }
+]
 ```
 
 ### Get Transaction ID
@@ -108,6 +164,8 @@ http://213.189.201.213:9000/api/payments/transactions
 
 request:
 
+*user = Headers.Authorization
+
 GET http://213.189.201.213:9000/api/payments/transactions
 
 response: 
@@ -115,34 +173,100 @@ response:
 ```json
 [
     {
-        "_id": "65233e53cfd854e409172eca",
-        "transactionId": "bf6ab9bc-4c28-7826-a812-bee40014c4e0",
+        "_id": "65243926785219e83096d34a",
+        "fullname": "Колотушин Михаил Геннадьевич",
+        "type": "Тренировки",
+        "email": "kolotushintechnologies@gmail.com",
+        "phoneNumber": "+79215716057",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "a44b571a-3f72-7182-86a0-10f60014c4e0",
         "amount": "10",
-        "description": "Оплата тренировки Колотушин М.Г. за январь",
-        "createdAt": "2023-10-08T23:42:11.401Z",
-        "updatedAt": "2023-10-08T23:43:54.738Z",
-        "__v": 0,
-        "status": "Успешно"
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+        "status": "Успешно",
+        "createdAt": "2023-10-09T17:32:22.844Z",
+        "updatedAt": "2023-10-09T17:33:57.811Z",
+        "__v": 0
     },
     {
-        "_id": "65233edacfd854e409172ecd",
-        "transactionId": "41bc864c-11da-761f-9a88-b4e20014c4e0",
-        "amount": "10",
-        "description": "Оплата тренировки Колотушин М.Г. за февраль",
-        "createdAt": "2023-10-08T23:44:26.205Z",
-        "updatedAt": "2023-10-08T23:45:37.422Z",
-        "__v": 0,
-        "status": "Успешно"
+        "_id": "652596b2785219e83096d419",
+        "fullname": "Александр",
+        "type": "Тренировки",
+        "email": "armag@gmail.com",
+        "phoneNumber": "+79003213223",
+        "coach": "Пушкин",
+        "transactionId": "4b43bf74-b696-7ca1-8de6-17eb0014c4e0",
+        "amount": "123",
+        "description": "оплата тренировки",
+        "status": "В обработке",
+        "createdAt": "2023-10-10T18:23:46.111Z",
+        "updatedAt": "2023-10-10T18:23:46.111Z",
+        "__v": 0
     },
     {
-        "_id": "65233f3ecfd854e409172ed0",
-        "transactionId": "39d26452-e9f2-73d1-8b76-57630014c4e0",
+        "_id": "6525e1a934b66ce1f2e77afb",
+        "fullname": "Колотушин Михаил Геннадьевич",
+        "type": "Тренировки",
+        "email": "kolotushintechnologies@gmail.com",
+        "phoneNumber": "+79215716057",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "4a696b9e-868d-7347-ae64-13600014c4e0",
         "amount": "10",
-        "description": "Оплата тренировки Колотушин М.Г. за март",
-        "createdAt": "2023-10-08T23:46:06.034Z",
-        "updatedAt": "2023-10-08T23:47:43.706Z",
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+        "status": "В обработке",
+        "createdAt": "2023-10-10T23:43:37.701Z",
+        "updatedAt": "2023-10-10T23:43:37.701Z",
+        "__v": 0
+    },
+    {
+        "_id": "6525e1cc8000e40bb37c5a36",
+        "fullname": "Колотушин Михаил Геннадьевич",
+        "type": "Тренировки",
+        "email": "kolotushintechnologies@gmail.com",
+        "phoneNumber": "+79215716057",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "d7e290b7-4c4f-75ef-a621-f9750014c4e0",
+        "amount": "10",
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+        "status": "Успешно",
+        "createdAt": "2023-10-10T23:44:12.209Z",
+        "updatedAt": "2023-10-10T23:47:59.852Z",
         "__v": 0,
-        "status": "Успешно"
+        "paymentPlace": "Личный кабинет спортсмена",
+        "userId": "6513e40243824b9eac3a0bac",
+        "userStatus": "Спортсмен"
+    },
+    {
+        "_id": "6525e2f98000e40bb37c5a39",
+        "fullname": "Колотушин Михаил Геннадьевич",
+        "type": "Тренировки",
+        "email": "kolotushintechnologies@gmail.com",
+        "phoneNumber": "+79215716057",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "34a5a846-7008-7fdf-8570-6df90014c4e0",
+        "amount": "10",
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Колотушин Михаил Геннадьевич, Октябрь.",
+        "status": "Успешно",
+        "createdAt": "2023-10-10T23:49:13.560Z",
+        "updatedAt": "2023-10-10T23:50:49.906Z",
+        "__v": 0
+    },
+    {
+        "_id": "6525e5258000e40bb37c5a41",
+        "fullname": "Денисов Денис Денисович",
+        "type": "Тренировки",
+        "email": "denis12345armag@gmail.com",
+        "phoneNumber": "+79215711111",
+        "coach": "Смышляев Сергей Николаевич",
+        "transactionId": "8d6f1a1c-77ab-7964-a03d-f7f70014c4e0",
+        "amount": "10",
+        "description": "Услуги по проведению физкультурно-оздоровительных занятий. Денисов Денис Денисович, Октябрь.",
+        "status": "Успешно",
+        "createdAt": "2023-10-10T23:58:29.179Z",
+        "updatedAt": "2023-10-11T00:01:36.766Z",
+        "__v": 0,
+        "paymentPlace": "Личный кабинет спортсмена",
+        "userId": "6525e48434b66ce1f2e77b04",
+        "userStatus": "Спортсмен"
     }
 ]
 ```

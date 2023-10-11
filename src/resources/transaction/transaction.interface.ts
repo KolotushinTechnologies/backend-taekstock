@@ -10,4 +10,8 @@ export default interface Paymnet extends Document {
     amount: string;
     description: string;
     status: string;
+
+    userId: string | object;
+    userStatus: string;
+    paymentPlace: string;
 }
