@@ -141,7 +141,7 @@ class ClientService {
     ): Promise<string | object | Error> {
         try {
             // Search for a client by ID in the database
-            const client = await this.client.findOne({ _id: clientId }).populate('userId branch groups', '-password');
+            const client = await this.client.findOne({ _id: clientId }).populate('userId branch group', '-password');
 
             // Checking if a client exists in the database
             if (!client) {
@@ -171,7 +171,7 @@ class ClientService {
             const clients = await this.client.find({ $or: [
                 { fullname: keywordRegExp },
                 { clientStatus: keywordRegExp },
-            ]}).populate('userId branch groups', '-password');
+            ]}).populate('userId branch group', '-password');
 
             // Checking if there are clients in the database
             if (!clients) {
