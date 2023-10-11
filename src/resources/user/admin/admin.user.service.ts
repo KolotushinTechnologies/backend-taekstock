@@ -31,11 +31,25 @@ class AdminUserService {
         try {
             // We are looking for the role of the User for future assignment
             const roleUser: any = await this.role.findOne({ value: 'User' });
+            const roleInstructor: any = await this.role.findOne({ value: 'Instructor' });
+            const roleSuperAdmin: any = await this.role.findOne({ value: 'SuperAdmin' });
 
             // If there are no roles in the database, then create a user role
             if (!roleUser) {
                 await this.role.create({
                     value: 'User',
+                });
+            }
+
+            if (!roleInstructor) {
+                await this.role.create({
+                    value: 'Instructor',
+                });
+            }
+
+            if (!roleSuperAdmin) {
+                await this.role.create({
+                    value: 'SuperAdmin',
                 });
             }
 
@@ -56,25 +70,71 @@ class AdminUserService {
                 throw new Error('Server Error');
             }
 
-            // If the User's Phone Number is not busy, then create a new User. Adding a User role
-            const user = await this.user.create({
-                // Required Data
-                username,
-                fullname,
-                phoneNumber,
-                status,
-                password,
+            if (status == 'Спортсмен' || status == 'Родитель') {
+                // If the User's Phone Number is not busy, then create a new User. Adding a User role
+                await this.user.create({
+                    // Required Data
+                    username,
+                    fullname,
+                    phoneNumber,
+                    status,
+                    password,
+    
+                    // Optional Data
+                    email,
+                    dateBirth,
+                    gip,
+                    belt,
+                    city,
+                    comment,
+    
+                    roles: [roleUser.value],
+                });
+            }
 
-                // Optional Data
-                email,
-                dateBirth,
-                gip,
-                belt,
-                city,
-                comment,
+            if (status == 'Тренер' || status == 'Инструктор') {
+                // If the User's Phone Number is not busy, then create a new User. Adding a User role
+                await this.user.create({
+                    // Required Data
+                    username,
+                    fullname,
+                    phoneNumber,
+                    status,
+                    password,
+    
+                    // Optional Data
+                    email,
+                    dateBirth,
+                    gip,
+                    belt,
+                    city,
+                    comment,
+    
+                    roles: [roleInstructor.value],
+                });
+            }
 
-                roles: [roleUser.value],
-            });
+            if (status == 'Админ' || status == 'Администратор' || status == 'Менеджер') {
+                // If the User's Phone Number is not busy, then create a new User. Adding a User role
+                await this.user.create({
+                    // Required Data
+                    username,
+                    fullname,
+                    phoneNumber,
+                    status,
+                    password,
+    
+                    // Optional Data
+                    email,
+                    dateBirth,
+                    gip,
+                    belt,
+                    city,
+                    comment,
+    
+                    roles: [roleSuperAdmin.value],
+                });
+            }
 
             // If everything is successful, 
             // then return the access token to the User Profile

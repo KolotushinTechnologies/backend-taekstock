@@ -32,7 +32,7 @@ class AdminUserController implements Controller {
         this.router.post(
             `${this.path}/register-user`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.register
         );
 
@@ -42,7 +42,7 @@ class AdminUserController implements Controller {
         this.router.get(
             `${this.path}/all`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.getUsers
         );
 
@@ -52,7 +52,7 @@ class AdminUserController implements Controller {
         this.router.get(
             `${this.path}/:user_id`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.getUserById
         );
 
@@ -62,7 +62,7 @@ class AdminUserController implements Controller {
         this.router.post(
             `${this.path}/searching/all`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.findUsers
         );
 
@@ -72,7 +72,7 @@ class AdminUserController implements Controller {
         this.router.put(
             `${this.path}/update/:user_id`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.updateUser
         );
 
@@ -82,7 +82,7 @@ class AdminUserController implements Controller {
         this.router.delete(
             `${this.path}/:user_id`,
             authenticated,
-            roleMiddleware(['SuperAdmin']),
+            roleMiddleware(['Instructor','SuperAdmin']),
             this.deleteUser
         );
     }

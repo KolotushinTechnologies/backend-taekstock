@@ -11,6 +11,14 @@ request:
 *status: required
 *password: required
 
+// Optional Data
+*email: optional
+*dateBirth: optional
+*gip: optional
+*belt: optional
+*city: optional
+*comment: optional
+
 types for status field:
 - Спортсмен
 - Родитель(Опекун)
@@ -20,13 +28,42 @@ types for status field:
 
 *user = Headers.Authorization
 
+if status == 'Спортсмен' || status == 'Родитель'
 ```json
 {
     "username": "username",
     "fullname": "Ivanov Ivan Ivanovich",
     "phoneNumber": "+79999999999",
     "status": "Спортсмен",
-    "password": "123456789"
+    "password": "123456789",
+
+    "comment": "Пароль 123456789"
+}
+```
+
+if status == 'Тренер' || status == 'Инструктор' => Создается Пользователь с правами Инструктора
+```json
+{
+    "username": "username111",
+    "fullname": "Ivanov Ivan Ivanovich111",
+    "phoneNumber": "+79999999911",
+    "status": "Инструктор",
+    "password": "123456789",
+
+    "comment": "Пароль 123456789"
+}
+```
+
+if status == 'Админ' || status == 'Администратор' || status == 'Менеджер' => Создается Пользователь с правами Администратора
+```json
+{
+    "username": "username111111",
+    "fullname": "Ivanov Ivan Ivanovich111",
+    "phoneNumber": "+79999999111",
+    "status": "Администратор",
+    "password": "123456789",
+
+    "comment": "Пароль 123456789"
 }
 ```
 
